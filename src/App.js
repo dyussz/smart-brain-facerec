@@ -7,19 +7,18 @@ import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import './App.css';
 import ParticlesBg from "particles-bg";
 
-// ===== Clarifai API setup =====
 const PAT = "ec975b6eb117472d9f3ff17e3303329f"; 
 const USER_ID = "rmac84yu3jbs";           
 const APP_ID = "face-recognition";             
 const MODEL_ID = "face-detection";   
-const BASE_URL = "https://api.clarifai.com/v2/models/" + MODEL_ID + "/outputs";
+const BASE_URL = `https://api.clarifai.com/v2/models/${MODEL_ID}/outputs`;
 
 class App extends Component {
     constructor() {
         super();
         this.state = {
-            input: '',
-            imageUrl: '',
+            input: "",
+            imageUrl: "",
         };
     }
 
@@ -28,7 +27,10 @@ class App extends Component {
     }
 
     onButtonSubmit = async () => {
-        this.setState({ imageUrl: this.state.input });
+        const { input } = this.state;
+
+        if (!input) return; // do nothing if input is empty
+        this.setState({ imageUrl: input }); // show image immediately
 
         const raw = JSON.stringify({
             user_app_id: {
@@ -38,9 +40,7 @@ class App extends Component {
             inputs: [
                 {
                     data: {
-                        image: {
-                            url: this.state.input
-                        }
+                        image: { url: input }
                     }
                 }
             ]
@@ -59,10 +59,13 @@ class App extends Component {
             const data = await response.json();
             console.log("Clarifai response:", data);
 
-            // Example: get first bounding box
-            const box = data.outputs[0].data.regions[0].region_info.bounding_box;
-            console.log("Bounding box:", box);
-
+            // Example: get first bounding box if exists
+            if (data.outputs && data.outputs[0].data.regions) {
+                const box = data.outputs[0].data.regions[0].region_info.bounding_box;
+                console.log("Bounding box:", box);
+            } else {
+                console.log("No faces detected.");
+            }
         } catch (err) {
             console.error("Clarifai API error:", err);
         }
