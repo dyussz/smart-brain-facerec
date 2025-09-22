@@ -6,8 +6,16 @@ import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import './App.css';
 import ParticlesBg from "particles-bg";
+import Clarifai from 'clarifai';
 
-const PAT = process.env.REACT_APP_CLARIFAI_API_KEY;
+
+// const PAT = process.env.REACT_APP_CLARIFAI_API_KEY;
+const PAT="ec975b6eb117472d9f3ff17e3303329f"
+// console.log(PAT)
+const app = new Clarifai.App({
+    apiKey: PAT,
+    apiEndpoint: 'https://api.clarifai.com'
+});
 const USER_ID = "rmac84yu3jbs";           
 const APP_ID = "face-recognition";             
 const MODEL_ID = "face-detection";   
@@ -39,11 +47,15 @@ class App extends Component {
         this.setState({ input: event.target.value });
     }
 
-    onButtonSubmit = async (value) => {
+    onButtonSubmit = async () => {
         const { input } = this.state;
-
-        if (!input) return; // do nothing if input is empty
         this.setState({ imageUrl: input }); // show image immediately
+        app.models
+            .predict(
+                Clarifai.FACE_DETECT_MODEL,
+                this.state.input)
+            // .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+            .catch(err => console.log(err));
 
         const raw = JSON.stringify({
             user_app_id: {
@@ -70,6 +82,7 @@ class App extends Component {
             });
 
             const data = await response.json();
+            console.log("API response:", response.status, response.statusText);
             console.log("Clarifai response:", data);
 
             // Example: get first bounding box if exists
