@@ -7,7 +7,7 @@ import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import './App.css';
 import ParticlesBg from "particles-bg";
 
-const PAT = "ec975b6eb117472d9f3ff17e3303329f"; 
+const PAT = process.env.REACT_APP_CLARIFAI_API_KEY;
 const USER_ID = "rmac84yu3jbs";           
 const APP_ID = "face-recognition";             
 const MODEL_ID = "face-detection";   
@@ -19,14 +19,27 @@ class App extends Component {
         this.state = {
             input: "",
             imageUrl: "",
+            box: {},
         };
     }
 
+    calculateFaceLocation = (data) => {
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById('inputImage');
+    const width = Number(image.width);
+    const height = Number(image.height);
+    return {
+        leftCol: clarifaiFace.left_col * width,
+        topRow: clarifaiFace.top_row * height,
+        rightCol: width - clarifaiFace.right_col * width,
+        bottomRow: height - clarifaiFace.bottom_row * height
+    };
+}
     onInputChange = (event) => {
         this.setState({ input: event.target.value });
     }
 
-    onButtonSubmit = async () => {
+    onButtonSubmit = async (value) => {
         const { input } = this.state;
 
         if (!input) return; // do nothing if input is empty
