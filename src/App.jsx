@@ -13,8 +13,6 @@ const returnClarifaiRequestOptions = (imageUrl) => {
   const USER_ID = import.meta.env.VITE_API_USER_ID;
   const APP_ID = import.meta.env.VITE_API_APP_ID;
   const IMAGE_URL = imageUrl;
-  console.log(PAT);
-    console.log(APP_ID);
   const raw = JSON.stringify({
     "user_app_id": {
         "user_id": USER_ID,
