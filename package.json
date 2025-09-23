@@ -1,50 +1,33 @@
 {
-  "name": "face-recognition",
-  "version": "0.1.0",
+  "name": "face_recognition",
+  "version": "0.0.0",
   "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
   "dependencies": {
-    "@grpc/grpc-js": "^1.14.0",
-    "@testing-library/dom": "^10.4.1",
-    "@testing-library/jest-dom": "^6.8.0",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^13.5.0",
     "clarifai": "^2.9.1",
-    "clarifai-nodejs-grpc": "^11.8.2",
+    "clarifai-nodejs": "^0.3.0",
     "cors": "^2.8.5",
-    "express": "^5.1.0",
-    "node-fetch": "^2.7.0",
     "particles-bg": "^2.5.5",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-parallax-tilt": "^1.7.308",
-    "react-scripts": "5.0.1",
-    "react-tsparticles": "^2.12.2",
-    "tachyons": "^4.12.0",
-    "web-vitals": "^2.1.4"
+    "tachyons": "^4.12.0"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "proxy": "https://api.clarifai.com"
+  "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@eslint/js": "^9.33.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0"
+  }
 }

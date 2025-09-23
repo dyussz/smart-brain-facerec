@@ -1,9 +1,12 @@
 .bounding-box {
-    position: absolute;
-    border: 3px solid #ff0000;
-    pointer-events: none;
+	position: absolute;
+	box-shadow: 0 0 0 3px #ff0000 inset;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
-.face-recognition {
-    position: relative;
-    display: inline-block;
+
+.relative-container {
+  position: relative;
+  display: inline-block;
 }
