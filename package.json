@@ -10,6 +10,9 @@
     "@testing-library/user-event": "^13.5.0",
     "clarifai": "^2.9.1",
     "clarifai-nodejs-grpc": "^11.8.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "node-fetch": "^2.7.0",
     "particles-bg": "^2.5.5",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -42,5 +45,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "https://api.clarifai.com"
 }

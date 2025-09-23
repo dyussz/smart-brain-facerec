@@ -12,14 +12,15 @@ import Clarifai from 'clarifai';
 // const PAT = process.env.REACT_APP_CLARIFAI_API_KEY;
 const PAT="ec975b6eb117472d9f3ff17e3303329f"
 // console.log(PAT)
-const app = new Clarifai.App({
-    apiKey: PAT,
-    apiEndpoint: 'https://api.clarifai.com'
-});
+// const app = new Clarifai.App({
+//     apiKey: PAT,
+//     apiEndpoint: 'https://api.clarifai.com'
+// });
 const USER_ID = "rmac84yu3jbs";           
 const APP_ID = "face-recognition";             
-const MODEL_ID = "face-detection";   
-const BASE_URL = `https://api.clarifai.com/v2/models/${MODEL_ID}/outputs`;
+const MODEL_ID = "face-detection";  
+const MODEL_VERSION_ID = "6dc7e46bc9124c5c8824be4822abe105"
+const BASE_URL = `https://api.clarifai.com/api/v2/models/${MODEL_ID}/versions/${MODEL_VERSION_ID}/outputs`;
 
 class App extends Component {
     constructor() {
@@ -50,12 +51,13 @@ class App extends Component {
     onButtonSubmit = async () => {
         const { input } = this.state;
         this.setState({ imageUrl: input }); // show image immediately
-        app.models
-            .predict(
-                Clarifai.FACE_DETECT_MODEL,
-                this.state.input)
-            // .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
-            .catch(err => console.log(err));
+        // app.models
+        //     .predict(
+        //         Clarifai.FACE_DETECT_MODEL,
+        //         this.state.input)
+        //     .then(response => console.log(response))
+        //     // .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+        //     .catch(err => console.log(err));
 
         const raw = JSON.stringify({
             user_app_id: {
@@ -72,14 +74,22 @@ class App extends Component {
         });
 
         try {
-            const response = await fetch(BASE_URL, {
-                method: "POST",
+            const response = await fetch('http://localhost:3001/proxy', {
+                method: 'POST',
                 headers: {
-                    "Accept": "application/json",
-                    "Authorization": "Key " + PAT
+                    'Content-Type': 'application/json'
                 },
-                body: raw
+                body: JSON.stringify({
+                    url: BASE_URL,
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                        "Authorization": "Key " + PAT
+                    },
+                    payload: raw
+                })
             });
+            console.log(response);
 
             const data = await response.json();
             console.log("API response:", response.status, response.statusText);
