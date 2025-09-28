@@ -13,7 +13,7 @@ const FaceRecognition = ({ imageUrl, box, onImageLoad }) => {
             src={imageUrl}
             width="500px" 
             height="auto" 
-            onLoad={onImageLoad} // NEW
+            onLoad={onImageLoad} 
           />
         )}
         <div className="bounding-box" style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div> 
