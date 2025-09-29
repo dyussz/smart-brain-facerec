@@ -46,7 +46,7 @@ const returnClarifaiRequestOptions = (imageUrl) => {
 const initialState = {
     input: "",
     imageUrl: "",
-    box: {},
+    boxes: [],
     route: 'signin',
     isSignedIn: false,
     user: {
@@ -86,19 +86,22 @@ class App extends Component {
     //bounding box//
     calculateFaceLocation = (data) => {
         try {
+            if (!data.outputs || !data.outputs[0].data.regions) return [];
+
             console.log("Calculating face location with data: " + JSON.stringify(data, null, 2));
-            const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
             const image = document.getElementById('inputImage');
             const width = Number(image.width);
             const height = Number(image.height);
             console.log(width, height);
-            console.log(clarifaiFace);
-            return {
-                leftCol: clarifaiFace.left_col * width,
-                topRow: clarifaiFace.top_row * height,
-                rightCol: width - (clarifaiFace.right_col * width),
-                bottomRow: height - (clarifaiFace.bottom_row * height)
-            };
+            return data.outputs[0].data.regions.map((region) => {
+                const box = region.region_info.bounding_box;
+                return {
+                    leftCol: box.left_col * width,
+                    topRow: box.top_row * height,
+                    width: (box.right_col - box.left_col) * width,
+                    height: (box.bottom_row - box.top_row) * height,
+                };
+            });
         } catch (error) {
             console.error("Error calculating face location:", error);
             return {};
@@ -106,8 +109,8 @@ class App extends Component {
     };
 
 
-    displayFaceBox = (box) => {
-        this.setState({box});
+    displayFaceBoxes = (boxes) => {
+        this.setState({boxes});
     };
 
     onInputChange = (event) => {
@@ -144,7 +147,7 @@ class App extends Component {
                     })
                 }
                 console.log(response);
-                this.displayFaceBox(this.calculateFaceLocation(response))
+                this.displayFaceBoxes(this.calculateFaceLocation(response))
             }).catch(err =>
                 console.log(err));
     }
@@ -181,8 +184,8 @@ class App extends Component {
     onImageLoad = () => {
         this.imageLoaded = true;
         if (this.lastClarifaiData) {
-            const box = this.calculateFaceLocation(this.lastClarifaiData);
-            this.displayFaceBox(box);
+            const boxes = this.calculateFaceLocation(this.lastClarifaiData);
+            this.displayFaceBoxes(boxes);
         }
     };
 
@@ -197,7 +200,7 @@ class App extends Component {
     };
 
     render() {
-        const {route, isSignedIn, imageUrl, box, user} = this.state;
+        const {route, isSignedIn, imageUrl, boxes, user} = this.state;
         return (
             <div className="App">
                 <ParticlesBg type="circle" bg={true} num={50}/>
@@ -214,8 +217,8 @@ class App extends Component {
                             onButtonSubmit={this.onButtonSubmit}
                         />
                         <FaceRecognition
-                            imageUrl={imageUrl}
-                            box={box}
+                            imageURL={imageUrl}
+                            boxes={boxes}
                             onImageLoad={this.onImageLoad}
                         />
                     </div>

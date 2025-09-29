@@ -1,25 +1,37 @@
-import './FaceRecognition.css';
+import React from "react";
+import "./FaceRecognition.css";
 
-// ADDED BOX AND IMAGELOAD HERE
-const FaceRecognition = ({ imageUrl, box, onImageLoad }) => {
-  return (
-    <div className="center ma">
-      <div className="relative-container mt2">
-        {/* Added id="inputImage" to allow calculateFaceLocation() in App.jsx to find the image DOM node and get its dimensions for drawing the bounding box */}
-        {imageUrl && (
-          <img
-            id="inputImage"
-            alt="Detected"
-            src={imageUrl}
-            width="500px" 
-            height="auto" 
-            onLoad={onImageLoad} 
-          />
-        )}
-        <div className="bounding-box" style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div> 
-      </div>
-    </div>
-  );
+const FaceRecognition = ({ imageURL, boxes, onImageLoad }) => {
+    return (
+        <div className="center ma">
+            <div className="image-container" style={{ position: "relative" }}>
+                <img
+                    id="inputImage"
+                    src={imageURL}
+                    alt="Detected"
+                    width="500px"
+                    height="auto"
+                    onLoad={onImageLoad}
+                />
+                {boxes &&
+                    boxes.map((box, i) => (
+                        <div
+                            key={i}
+                            className="bounding-box"
+                            style={{
+                                top: box.topRow,
+                                left: box.leftCol,
+                                width: box.width,
+                                height: box.height,
+                                position: "absolute",
+                                border: "3px solid #149df2",
+                                boxShadow: "0 0 0 3px #149df2 inset",
+                            }}
+                        ></div>
+                    ))}
+            </div>
+        </div>
+    );
 };
 
 export default FaceRecognition;
