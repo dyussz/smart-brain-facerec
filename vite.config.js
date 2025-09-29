@@ -6,5 +6,10 @@ export default defineConfig({
   plugins: [react()],
   define: {
     'process.env': {}
-  }
+  },
+    esbuild: {
+        logOverride: {
+            'css-syntax-error': 'silent'
+        }
+    }
 });
