@@ -1,14 +1,16 @@
-const Rank = () => {
-  return (
-   <div>
-      <div className="white f3">
-        {'Zuriya, your current entry count is...'}
-      </div>
-      <div className="white f1">
-      {'#4'}
-    </div>
-    </div>
-  );
-};
+import React from 'react';
 
-export default Rank; 
+const Rank = ({ name, entries }) => {
+    return (
+        <div>
+            <div className='white f3'>
+                {`${name}, your current entry count is...`}
+            </div>
+            <div className='white f1'>
+                {typeof entries === 'object' ? entries.count : entries}
+            </div>
+        </div>
+    );
+}
+
+export default Rank;

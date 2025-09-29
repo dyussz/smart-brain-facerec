@@ -63,7 +63,6 @@ class App extends Component {
         super();
         this.state = initialState;
         this.lastClarifaiData = null;
-        this.imageLoaded = false; //maybe don't need it
     }
 
 
@@ -118,7 +117,7 @@ class App extends Component {
     onButtonSubmit = () => {
         this.setState({imageUrl: this.state.input});
         console.log("Calling button submit");
-        fetch('http://localhost:3001/imageurl', { // если что удали целиком
+        fetch('http://localhost:3001/imageurl', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -138,12 +137,13 @@ class App extends Component {
                         })
                     })
                         .then(response => response.json())
-                        .then(count => {
-                            this.setState(Object.assign(this.state.user, {entries: count}));
+                        .then(entries => {
+                            this.setState(Object.assign(this.state.user, {entries}));
                         }).catch(error => {
                             console.log("error calling image url", error)
                     })
                 }
+                console.log(response);
                 this.displayFaceBox(this.calculateFaceLocation(response))
             }).catch(err =>
                 console.log(err));
@@ -197,7 +197,7 @@ class App extends Component {
     };
 
     render() {
-        const {route, isSignedIn} = this.state;
+        const {route, isSignedIn, imageUrl, box, user} = this.state;
         return (
             <div className="App">
                 <ParticlesBg type="circle" bg={true} num={50}/>
@@ -205,14 +205,17 @@ class App extends Component {
                 {route === 'home'
                     ? <div>
                         <Logo/>
-                        <Rank/>
+                        <Rank
+                            name={user.name}
+                            entries={user.entries}
+                        />
                         <ImageLinkForm
                             onInputChange={this.onInputChange}
                             onButtonSubmit={this.onButtonSubmit}
                         />
                         <FaceRecognition
-                            imageUrl={this.state.imageUrl}
-                            box={this.state.box}
+                            imageUrl={imageUrl}
+                            box={box}
                             onImageLoad={this.onImageLoad}
                         />
                     </div>
