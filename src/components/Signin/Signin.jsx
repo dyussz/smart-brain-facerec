@@ -1,5 +1,5 @@
 import React from 'react';
-
+const HOST_NAME = import.meta.env.VITE_API_HOST_NAME;
 class Signin extends React.Component {
     constructor(props) {
         super(props);
@@ -17,7 +17,7 @@ class Signin extends React.Component {
     }
 
     onSubmitSignIn = () => {
-        fetch('http://localhost:3001/signin', { // error here
+        fetch(`${HOST_NAME}/signin`, { // error here
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -37,7 +37,7 @@ class Signin extends React.Component {
     render() {
         const {onRouteChange} = this.props;
         return (
-            <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
+            <article className="br3 ba b--black-10 mv4 w-50-m w-25-l mw6 center shadow-5">
                 <main className="pa4 black-80">
                     <div className="measure">
                         <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
@@ -45,7 +45,7 @@ class Signin extends React.Component {
                             <div className="mt3">
                                 <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                                 <input
-                                    className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                                    className="pa2 input-reset ba bg-transparent hover-bg-black hover-white"
                                     type="email"
                                     name="email-address"
                                     id="email-address"
@@ -55,7 +55,7 @@ class Signin extends React.Component {
                             <div className="mv3">
                                 <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
                                 <input
-                                    className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                                    className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white"
                                     type="password"
                                     name="password"
                                     id="password"
@@ -63,7 +63,7 @@ class Signin extends React.Component {
                                 />
                             </div>
                         </fieldset>
-                        <div className="w-100">
+                        <div className="">
                             <input
                                 onClick={this.onSubmitSignIn}
                                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
@@ -71,7 +71,7 @@ class Signin extends React.Component {
                                 value="Sign in"
                             />
                         </div>
-                        <div className="lh-copy mt3 w-100">
+                        <div className="lh-copy mt3">
                             <p onClick={() => onRouteChange('register')}
                                className="f6 link dim black db pointer">Register</p>
                         </div>

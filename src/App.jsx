@@ -9,6 +9,7 @@ import ParticlesBg from "particles-bg";
 import Signin from "./components/Signin/Signin.jsx";
 import Register from "./components/Register/Register.jsx";
 
+const API_URL = import.meta.env.VITE_API_HOST_NAME;
 /*Preparing the API request from Clarifai*/
 const returnClarifaiRequestOptions = (imageUrl) => {
     const PAT = import.meta.env.VITE_API_PAT;
@@ -120,7 +121,8 @@ class App extends Component {
     onButtonSubmit = () => {
         this.setState({imageUrl: this.state.input});
         console.log("Calling button submit");
-        fetch('http://localhost:3001/imageurl', {
+
+        fetch(`${API_URL}/imageurl`, {  //using env variable here
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -132,7 +134,7 @@ class App extends Component {
                 console.log("response imageUrl" +  JSON.stringify(response, null, 2));
                 if (response) {
                     console.log("User id: " + this.state.user.id);
-                    fetch('http://localhost:3001/image', { // если что удали целиком
+                    fetch(`${API_URL}/image`, { //using env variable here
                         method: 'put',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({
