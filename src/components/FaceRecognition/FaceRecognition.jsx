@@ -2,13 +2,21 @@ import React from "react";
 import "./FaceRecognition.css";
 
 const FaceRecognition = ({ imageURL, boxes, onImageLoad }) => {
+    if (!imageURL) {
+    return (
+        <div className="center ma" style={{ padding: "20px", fontSize: "18px", color: "#555" }}>
+            <p>No image provided. Please enter an image to detect faces.</p>
+        </div>
+        );
+    }
+
     return (
         <div className="center ma">
             <div className="image-container" style={{ position: "relative" }}>
                 <img
                     id="inputImage"
                     src={imageURL}
-                    alt="Detected"
+                    alt="Detected" 
                     width="500px"
                     height="auto"
                     onLoad={onImageLoad}

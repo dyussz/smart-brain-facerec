@@ -1,3 +1,4 @@
+//imports react and component class, styles, background animation, custom UI//
 import React, {Component} from 'react';
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Logo from "./components/Logo/Logo.jsx";
@@ -10,64 +11,67 @@ import Signin from "./components/Signin/Signin.jsx";
 import Register from "./components/Register/Register.jsx";
 
 const API_URL = import.meta.env.VITE_API_HOST_NAME;
+
+
 /*Preparing the API request from Clarifai*/
 const returnClarifaiRequestOptions = (imageUrl) => {
-    const PAT = import.meta.env.VITE_API_PAT;
-    const USER_ID = import.meta.env.VITE_API_USER_ID;
-    const APP_ID = import.meta.env.VITE_API_APP_ID;
-    const IMAGE_URL = imageUrl;
-    const raw = JSON.stringify({
+    const PAT = import.meta.env.VITE_API_PAT; //my personal access token//
+    const USER_ID = import.meta.env.VITE_API_USER_ID; //my user id//
+    const APP_ID = import.meta.env.VITE_API_APP_ID; // my app id//
+    const IMAGE_URL = imageUrl; //the image url we want to analyze//
+    const raw = JSON.stringify({ //request payload//
         "user_app_id": {
             "user_id": USER_ID,
             "app_id": APP_ID
         },
         "inputs": [
             {
-                "data": {
-                    "image": {
-                        "url": IMAGE_URL
+                "data": { //data object containing image url//
+                    "image": { //image object//
+                        "url": IMAGE_URL //image url//
                     }
                 }
             }
         ]
     });
 
-    const requestOptions = {
-        method: 'POST',
+    const requestOptions = { //defines a function that securely pulls API key from environment variables "import.meta.env"//
+        method: 'POST', //http method//
         headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Key ' + PAT
+            'Accept': 'application/json', //specifies that the client expects a JSON response//
+            'Authorization': 'Key ' + PAT //API key//
         },
-        body: raw
+        body: raw //body of the request//
     };
 
-    return requestOptions;
+    return requestOptions; //returns the request options object// what exactly is this returning?//
 };
 
-const initialState = {
-    input: "",
-    imageUrl: "",
-    boxes: [],
-    route: 'signin',
-    isSignedIn: false,
-    user: {
-        id: '',
-        name: '',
+const initialState = { //default state//
+    input: "",  //holds text image url//
+    imageUrl: "", //stores imageURL after button is clicked//
+    boxes: [], //stores calculated bounding boxes//
+    route: 'signin', //controls which component signin, register, home//
+    isSignedIn: false, //controls user authentification status//
+    user: { //user object//
+        id: '', //user id//
+        name: '', //
         email: '',
         entries: 0,
         joined: ''
     }
 }
 
-class App extends Component {
+//main component,  holds names, login state, image url,//
+class App extends Component { //defines the main component//
     constructor() {
-        super();
-        this.state = initialState;
-        this.lastClarifaiData = null;
+        super(); //calls the constructor of the parent class//
+        this.state = initialState; //initializes the state with default values//
+        this.lastClarifaiData = null; //stores the last response from Clarifai//
     }
 
 
-    loadUser = (data) => {
+    loadUser = (data) => { //runs only after user successfully signs in or registers, updates user object//
         this.setState({
             user: {
                 id: data.id,
