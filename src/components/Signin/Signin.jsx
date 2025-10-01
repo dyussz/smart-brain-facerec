@@ -37,13 +37,13 @@ class Signin extends React.Component {
     render() { //destructuring//
         const {onRouteChange} = this.props; //pulling out onRouteChange from props//
         return ( //returns jsx//
-            <article className="br3 ba b--black-10 mv4 w-50-m w-25-l mw6 center shadow-5"> //styling//
+            <article className="br3 ba b--black-10 mv4 w-50-m w-25-l mw6 center shadow-5">
                 <main className="pa4 black-80">
-                    <div className="measure"> //centering//
+                    <div className="measure">
                         <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                             <legend className="f2 fw6 ph0 mh0">Sign In, no regrets</legend> 
                             <div className="mt3">
-                                <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label> //htmlFor instead of for in react//
+                                <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                                 <input
                                     className="pa2 input-reset ba bg-transparent hover-bg-black hover-white"
                                     type="email"
@@ -52,7 +52,7 @@ class Signin extends React.Component {
                                     onChange={this.onEmailChange} //updates state//
                                 />
                             </div>
-                            <div className="mv3"> //margin vertical//
+                            <div className="mv3">
                                 <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
                                 <input
                                     className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white"
@@ -63,7 +63,7 @@ class Signin extends React.Component {
                                 />
                             </div>
                         </fieldset>
-                        <div className="tc"> //contains Sign in button//
+                        <div className="tc">
                             <input
                                 onClick={this.onSubmitSignIn}
                                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
@@ -71,9 +71,9 @@ class Signin extends React.Component {
                                 value="Sign in"
                             />
                         </div>
-                        <div className="lh-copy mt3"> //line height and margin top//
-                            <p onClick={() => onRouteChange('register')} //
-                               className="f6 link dim black db pointer">Register</p> //a link to register//
+                        <div className="lh-copy mt3">
+                            <p onClick={() => onRouteChange('register')}
+                               className="f6 link dim black db pointer">Register</p>
                         </div>
                     </div>
                 </main>
