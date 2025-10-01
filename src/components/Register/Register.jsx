@@ -21,7 +21,7 @@ onEmailChange = (event) => {
     this.setState({password: event.target.value})
 }
     
- onSubmitSignIn = () => {
+ onSubmitSignIn = () => { 
       console.log(this.state)
   fetch(`${HOST_NAME}/register`, {
     method: 'post',
@@ -47,9 +47,9 @@ onEmailChange = (event) => {
         return (
     <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
       <main className="pa4 black-80">
-        <div className="measure center">
+        <div className="measure center flex flex-column">
           <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-            <legend className="f2 fw6 ph0 mh0 tc">Register here, dude</legend>
+            <legend className="f2 fw6 ph0 mh0 tc">Register with us</legend>
             
             <div className="mt4">
               <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
@@ -83,10 +83,10 @@ onEmailChange = (event) => {
               />
             </div>
           </fieldset>
-          <div className="">
+          <div className="mt4" style={{ alignSelf: "center"}}> 
             <input 
               onClick={this.onSubmitSignIn} 
-              className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
+              className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6" 
               type="submit" 
               value="Register" 
             />
